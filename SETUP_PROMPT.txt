@@ -1,0 +1,71 @@
+You are bootstrapping a brand-new project in this folder using the starter kit in ./_kit/. Work through the phases below IN ORDER. Do NOT write any feature code — only plans, rules, docs, tooling and an empty-but-working skeleton.
+
+Read first: _kit/README.md, _kit/templates/CLAUDE.md, every file in _kit/templates/docs/, _kit/templates/.claude/, and _kit/stacks/. If _kit/BRIEF.md exists, read it too.
+
+==================================================
+PHASE A — UNDERSTAND THE PROJECT (ask, then wait)
+==================================================
+If _kit/BRIEF.md exists, extract answers from it and only ask about what's missing or ambiguous. Otherwise interview me. Ask in ONE message, numbered, short:
+1. Project name and one-sentence pitch.
+2. Who is it for (just me / customers / a team / a client)?
+3. Platforms: Android, iOS, web app, website, backend/API, CLI, desktop, AI/ML pipeline, browser extension (pick any).
+4. Must-have features for v1 (top 5) and "later" features.
+5. External services/data it will need (AI models, maps, payments, auth, scraping, APIs…) and whether they must be free.
+6. Stack preferences or constraints (languages I know, hosting, budget, must-run-locally, etc.). If I have none, you will propose.
+7. Does it have a UI that should feel premium? Any reference apps/sites for the look?
+8. Legal/privacy sensitivities (personal data, payments, scraping, health, kids…).
+9. Timeline / how many hours per week.
+Wait for my answers.
+
+==================================================
+PHASE B — PROPOSE (wait for my OK)
+==================================================
+Reply with:
+- Recommended stack per part, chosen from _kit/stacks/ where they fit (if a part needs a stack not in _kit/stacks/, design an equivalent rules file with the same sections). One line of "why" each, plus one alternative you rejected.
+- Repo layout (2 levels), following templates/CLAUDE.md §1 adapted to the chosen stacks (monorepo with one folder per deployable part).
+- The gateway domains this project needs (from my external services) with initial providers, preferring free ones; flag anything paid, unofficial or legally risky.
+- Phased roadmap: Phase 0 setup → small vertical phases, each with a "done when" test, riskiest unknown first.
+- Any risks/legal lines.
+Wait for my OK or changes.
+
+==================================================
+PHASE C — WRITE THE DOCS & RULES
+==================================================
+1. docs/PLAN.md — fill _kit/templates/docs/PLAN.md completely from Phases A–B.
+2. CLAUDE.md (root) — copy _kit/templates/CLAUDE.md, replace every {{PLACEHOLDER}}, fill §1 repo layout and §3.4 gateway table for THIS project, remove sections that truly don't apply (say which in your report). Keep all principles.
+3. Sub-folder rules — for each part, create <part>/CLAUDE.md from the matching _kit/stacks/*.md, filled in for this project.
+4. docs/DESIGN.md — only if there's a UI. Fill _kit/templates/docs/DESIGN.md: keep the structure and motion system; adapt palette/typography/components to my answer for Q7 (original identity, never copying a brand's assets). If no UI, skip it and remove DESIGN references.
+5. docs/PROGRESS.md and docs/INCIDENTS.md — copy templates, fill phase tracker from the roadmap.
+6. docs/adr/ — copy 0000-template.md and write: 0001 architecture & layering, 0002 gateway/provider pattern, 0003 toolchain versions (after Phase D research), plus one ADR per significant stack choice.
+7. .claude/ — copy _kit/templates/.claude/ (settings.json, commands, agents, hooks). Adapt allowed commands in settings.json and the lint commands in hooks/post-edit-lint.sh to the chosen stacks. Make the hook executable. If .claude/settings.local.json exists, keep it.
+
+==================================================
+PHASE D — VERSIONS (research, don't guess)
+==================================================
+For every stack, resolve the NEWEST SET of versions that are officially compatible with each other (not the newest of each). Check real registries/release notes/artifact metadata, not memory. When a tool lags, step back to a compatible combo instead of hacking around it. Prefer stable releases; if a pre-release is unavoidable, justify it. Record the full matrix, evidence and upgrade triggers in ADR 0003.
+
+==================================================
+PHASE E — SKELETON (empty but working)
+==================================================
+For each part, per its stack rules file:
+- Project/build files, dependency lockfiles, module/package structure with .gitkeep in empty folders.
+- Core primitives only: Result/error types, logger interface, clock interface, config loading with fail-fast on missing env vars, health endpoint (for servers), app shell with theme tokens from DESIGN.md (for UIs).
+- Lint, format, type-check and import-boundary rules configured.
+- One real test per part (e.g. health endpoint, Result type) and one screenshot test of the token sheet (UI parts).
+Root files: README.md (pitch, folder map, how to run), CHANGELOG.md (Keep a Changelog), .gitignore (all stacks + .env*, keys, caches, venvs, build outputs, .claude/settings.local.json; allowlist .env.example/.env.test), .env.example (every var with placeholder), Makefile (setup, lint, test, run targets per part), .pre-commit-config.yaml (formatters, linters, gitleaks secret scan).
+CI: .github/workflows/ci-<part>.yml running lint, types, boundaries, tests, build for each part, with caching.
+
+==================================================
+PHASE F — VERIFY & FINISH
+==================================================
+1. Run make lint and make test (and the build for each part). Fix the skeleton, never weaken the rules, until green.
+2. Move nothing from _kit into the repo that wasn't adapted. Then delete _kit/ from the project (it's a template, not part of the repo) — unless I tell you otherwise.
+3. git init (branch main), ensure no secrets/venvs/caches are tracked, commit: "chore: bootstrap <project> skeleton".
+4. Update docs/PROGRESS.md: Phase 0 status, Current Snapshot, first Session Log entry, any tech debt.
+5. Report:
+   - Final tree (2 levels)
+   - Table of every check and its result
+   - Every decision you made on your own, flagged as an assumption
+   - What I must do manually (accounts, API keys, devices, installs) as a checklist
+   - The first task of Phase 0/1
+Then stop and wait. Remind me to restart Claude Code in the project root and use /start-session from now on.
