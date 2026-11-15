@@ -1,0 +1,328 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "repo-seed setup: empty folder to first commit",
+    "output": "docs/diagrams/setup-flow.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Aryan-yadav15/repo-seed",
+      "provider": "github",
+      "link_mode": "local-only",
+      "revision": "474ad6643ddd03d01e4a8fccf08247876d7fbd02"
+    }
+  },
+  "lanes": [
+    {
+      "id": "you",
+      "label": "You"
+    },
+    {
+      "id": "claude",
+      "label": "Claude Code + _kit/"
+    },
+    {
+      "id": "repo",
+      "label": "Your new repo"
+    }
+  ],
+  "phases": [
+    {
+      "id": "understand",
+      "label": "Understand",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "plan",
+      "label": "Plan",
+      "fromCol": 2,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "build",
+      "label": "Write + build",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "groups": [
+    {
+      "id": "gate",
+      "label": "Your OK",
+      "lane": "you",
+      "fromCol": 2,
+      "toCol": 2,
+      "variant": "security"
+    }
+  ],
+  "mainPath": [
+    "brief",
+    "a",
+    "b",
+    "ok",
+    "c",
+    "d",
+    "ef",
+    "report"
+  ],
+  "nodes": [
+    {
+      "id": "brief",
+      "lane": "you",
+      "col": 0,
+      "type": "external",
+      "label": "Brief",
+      "sublabel": "BRIEF.md or 9 Qs",
+      "width": 136,
+      "sources": [
+        {
+          "path": "SETUP_PROMPT.txt",
+          "line": 8,
+          "end_line": 18,
+          "label": "Phase A questions"
+        }
+      ]
+    },
+    {
+      "id": "a",
+      "lane": "claude",
+      "col": 1,
+      "type": "backend",
+      "label": "A · Understand",
+      "sublabel": "asks what's missing",
+      "width": 140,
+      "sources": [
+        {
+          "path": "SETUP_PROMPT.txt",
+          "line": 6,
+          "end_line": 18,
+          "label": "Phase A"
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "lane": "claude",
+      "col": 2,
+      "type": "backend",
+      "label": "B · Propose",
+      "sublabel": "stack · roadmap",
+      "width": 136,
+      "sources": [
+        {
+          "path": "SETUP_PROMPT.txt",
+          "line": 21,
+          "end_line": 29,
+          "label": "Phase B"
+        }
+      ]
+    },
+    {
+      "id": "ok",
+      "lane": "you",
+      "col": 2,
+      "type": "security",
+      "label": "Approve",
+      "sublabel": "or ask for changes",
+      "width": 136,
+      "sources": [
+        {
+          "path": "SETUP_PROMPT.txt",
+          "line": 29,
+          "label": "wait for OK"
+        }
+      ]
+    },
+    {
+      "id": "c",
+      "lane": "claude",
+      "col": 3,
+      "type": "backend",
+      "label": "C · Docs + rules",
+      "sublabel": "from templates",
+      "width": 140,
+      "sources": [
+        {
+          "path": "SETUP_PROMPT.txt",
+          "line": 32,
+          "end_line": 41,
+          "label": "Phase C"
+        }
+      ]
+    },
+    {
+      "id": "d",
+      "lane": "claude",
+      "col": 4,
+      "type": "backend",
+      "label": "D · Versions",
+      "sublabel": "researched",
+      "width": 136,
+      "sources": [
+        {
+          "path": "SETUP_PROMPT.txt",
+          "line": 43,
+          "end_line": 46,
+          "label": "Phase D"
+        }
+      ]
+    },
+    {
+      "id": "ef",
+      "lane": "claude",
+      "col": 5,
+      "type": "backend",
+      "label": "E–F · Build",
+      "sublabel": "skeleton · verify",
+      "width": 136,
+      "sources": [
+        {
+          "path": "SETUP_PROMPT.txt",
+          "line": 48,
+          "end_line": 63,
+          "label": "Phases E and F"
+        }
+      ]
+    },
+    {
+      "id": "rules",
+      "lane": "repo",
+      "col": 3,
+      "type": "database",
+      "label": "Rules + memory",
+      "sublabel": "CLAUDE.md · docs/",
+      "width": 140,
+      "sources": [
+        {
+          "path": "templates/CLAUDE.md",
+          "line": 1,
+          "end_line": 13,
+          "label": "rulebook header"
+        }
+      ]
+    },
+    {
+      "id": "skeleton",
+      "lane": "repo",
+      "col": 5,
+      "type": "database",
+      "label": "Skeleton + CI",
+      "sublabel": "first commit",
+      "width": 136,
+      "sources": [
+        {
+          "path": "SETUP_PROMPT.txt",
+          "line": 48,
+          "end_line": 57,
+          "label": "Phase E"
+        }
+      ]
+    },
+    {
+      "id": "report",
+      "lane": "you",
+      "col": 5,
+      "type": "external",
+      "label": "Report",
+      "sublabel": "checks · next task",
+      "width": 136,
+      "sources": [
+        {
+          "path": "SETUP_PROMPT.txt",
+          "line": 65,
+          "end_line": 71,
+          "label": "final report"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-brief",
+      "from": "brief",
+      "to": "a",
+      "label": "answers"
+    },
+    {
+      "id": "e-ab",
+      "from": "a",
+      "to": "b"
+    },
+    {
+      "id": "e-propose",
+      "from": "b",
+      "to": "ok",
+      "label": "proposal",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-ok",
+      "from": "ok",
+      "to": "c",
+      "label": "OK",
+      "variant": "security"
+    },
+    {
+      "id": "e-write",
+      "from": "c",
+      "to": "rules",
+      "label": "writes",
+      "variant": "dashed",
+      "role": "branch"
+    },
+    {
+      "id": "e-cd",
+      "from": "c",
+      "to": "d"
+    },
+    {
+      "id": "e-d",
+      "from": "d",
+      "to": "ef",
+      "label": "ADR 0003"
+    },
+    {
+      "id": "e-build",
+      "from": "ef",
+      "to": "skeleton",
+      "label": "lint + test",
+      "variant": "dashed",
+      "role": "branch"
+    },
+    {
+      "id": "e-report",
+      "from": "ef",
+      "to": "report",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "violet",
+      "title": "Two stops for you",
+      "items": [
+        "Phase A waits for your answers",
+        "Phase B waits for your OK or changes"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "What it never does",
+      "items": [
+        "Write feature code during setup",
+        "Weaken a rule to make checks pass"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Afterwards",
+      "items": [
+        "_kit/ is deleted unless you say otherwise",
+        "Every session: /start-session … /end-session"
+      ]
+    }
+  ]
+}

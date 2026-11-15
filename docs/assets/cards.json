@@ -1,0 +1,417 @@
+{
+  "title": "repo-seed",
+  "accent": {
+    "light": "#6d28d9",
+    "dark": "#a78bfa"
+  },
+  "hero": {
+    "masthead": [
+      "CLAUDE CODE KIT",
+      "START A PROJECT PROPERLY",
+      "OPEN SOURCE · 2026"
+    ],
+    "tagline": [
+      "Empty folder in.",
+      "Real project out."
+    ],
+    "blurb": "A Claude Code kit that interviews you, plans the project, writes its rules and memory, and builds a working skeleton with CI.",
+    "demo": {
+      "labels": [
+        "YOU PASTE",
+        "IT SETS UP",
+        "IN THE BOX"
+      ],
+      "question": "SETUP_PROMPT.txt into an empty folder",
+      "code": [
+        "CLAUDE.md  + <part>/CLAUDE.md",
+        "docs/      PLAN · PROGRESS · INCIDENTS · adr/",
+        ".claude/   commands · agents · hooks",
+        ".github/   ci-<part>.yml"
+      ],
+      "keywords": [
+        "CLAUDE.md",
+        "docs/",
+        ".claude/",
+        ".github/"
+      ],
+      "rows": [
+        [
+          "Rule sections",
+          28
+        ],
+        [
+          "Slash commands",
+          7
+        ],
+        [
+          "Reviewer agents",
+          4
+        ]
+      ]
+    },
+    "facts": [
+      "Plan before code",
+      "Session memory",
+      "4 stack rule-sets",
+      "CI from day one"
+    ]
+  },
+  "arch": {
+    "alt": "How setup works: you give a brief or answer 9 questions and approve the plan; SETUP_PROMPT.txt drives Claude Code through phases A to F (interview and propose, docs and rules, version research, skeleton and verify); the result is rules and memory, a .claude folder with commands, agents and a hook, and a skeleton with CI.",
+    "kicker": "HOW SETUP WORKS",
+    "title": "One prompt, six phases.",
+    "cols": [
+      "YOU",
+      "CLAUDE CODE + THE KIT",
+      "YOUR NEW REPO"
+    ],
+    "client": [
+      [
+        "Brief or interview",
+        "BRIEF.md · 9 questions"
+      ],
+      [
+        "Approve the plan",
+        "stack · layout · roadmap"
+      ]
+    ],
+    "server": [
+      "SETUP_PROMPT.txt",
+      "phases A → F, in order"
+    ],
+    "agent": [
+      "Claude Code",
+      "reads _kit/, writes no feature code"
+    ],
+    "tools": [
+      [
+        "A–B interview · propose",
+        "waits for OK"
+      ],
+      [
+        "C   docs & rules",
+        "from templates"
+      ],
+      [
+        "D   version research",
+        "ADR 0003"
+      ],
+      [
+        "E–F skeleton · verify",
+        "lint + tests"
+      ]
+    ],
+    "data": [
+      [
+        "Rules & memory",
+        "CLAUDE.md · docs/ · adr/"
+      ],
+      [
+        ".claude/",
+        "commands · agents · hook"
+      ],
+      [
+        "Skeleton + CI",
+        "lint · tests · workflows"
+      ]
+    ],
+    "links": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "link": "ASKS",
+    "footnote": "When setup finishes, _kit/ is deleted: only adapted files stay, and every later session starts with /start-session."
+  },
+  "flow": {
+    "alt": "Six steps: copy the kit, brief, approve, write, build, verify",
+    "kicker": "FROM EMPTY FOLDER TO FIRST COMMIT",
+    "title": "Setup, step by step.",
+    "steps": [
+      [
+        "Copy the kit",
+        "Into an empty folder as _kit/"
+      ],
+      [
+        "Brief",
+        "BRIEF.md, or answer 9 questions"
+      ],
+      [
+        "Approve",
+        "Stack, layout, gateways, roadmap"
+      ],
+      [
+        "Write",
+        "Rules, docs, ADRs and .claude/"
+      ],
+      [
+        "Build",
+        "Researched versions, skeleton, CI"
+      ],
+      [
+        "Verify",
+        "Lint and tests green, first commit"
+      ]
+    ]
+  },
+  "capabilities": {
+    "alt": "Four things the kit gives every project: session memory, a gateway per outside service, reviewer agents, and quality gates.",
+    "kicker": "WHAT EVERY PROJECT GETS",
+    "title": "Built to keep going.",
+    "items": [
+      {
+        "kicker": "MEMORY",
+        "title": "It remembers between sessions",
+        "ask": "Where were we?",
+        "does": "Reads PROGRESS and the INCIDENTS lessons, checks git, then proposes 3–6 small tasks before any code.",
+        "tool": "/start-session"
+      },
+      {
+        "kicker": "ARCHITECTURE",
+        "title": "One gateway per outside service",
+        "ask": "Add a second payment provider",
+        "does": "A provider file, a mapper, a config line and contract tests. Callers never change.",
+        "tool": "/new-provider"
+      },
+      {
+        "kicker": "REVIEW",
+        "title": "Reviewers before commits",
+        "ask": "Review this change",
+        "does": "Architecture, security and UI reviewers check the diff against the rulebook and rank findings.",
+        "tool": "architecture-reviewer"
+      },
+      {
+        "kicker": "GUARDRAILS",
+        "title": "Quality gates from day one",
+        "ask": "Save a file",
+        "does": "A hook formats and lints each edited file; CI runs lint, types, boundaries and tests per part.",
+        "tool": "post-edit-lint.sh"
+      }
+    ]
+  },
+  "decisions": {
+    "alt": "Five design decisions: plan before code, memory lives in the repo, every outside service behind a gateway, versions researched not guessed, the kit deletes itself.",
+    "kicker": "DECISIONS WORTH TALKING ABOUT",
+    "title": "Why it works this way.",
+    "items": [
+      [
+        "Plan before code",
+        "Setup writes the plan, the rules and an empty-but-working skeleton only. No feature code until you approve a phased roadmap that tackles the riskiest unknown first."
+      ],
+      [
+        "Memory lives in the repo",
+        "PROGRESS, INCIDENTS and ADRs are plain Markdown the agent reads at the start of every session, so context survives restarts and new chats."
+      ],
+      [
+        "Every outside service behind a gateway",
+        "Providers stay private. Selection, fallback, caching, rate limits and retries live in one gateway per domain, so adding or swapping a provider never touches callers."
+      ],
+      [
+        "Versions researched, not guessed",
+        "Phase D picks the newest set of versions that are officially compatible with each other, checked against registries and release notes, and records it in ADR 0003."
+      ],
+      [
+        "The kit deletes itself",
+        "_kit/ is a template, not part of your repo. After setup only adapted files remain, and the kit improves on its own as you learn lessons that apply everywhere."
+      ]
+    ]
+  },
+  "stack": {
+    "alt": "Stack rule-sets included: Android with Kotlin, Jetpack Compose, Hilt and Room; Python API with FastAPI, Pydantic, SQLAlchemy and uv; Web with Next.js, React and Tailwind; Node API with TypeScript, Fastify and Zod.",
+    "kicker": "STACK RULE-SETS INCLUDED",
+    "title": "Stacks it knows.",
+    "cols": [
+      [
+        "ANDROID",
+        [
+          [
+            "Kotlin",
+            "kotlin"
+          ],
+          [
+            "Jetpack Compose",
+            "jetpackcompose"
+          ],
+          [
+            "Hilt · Room",
+            null
+          ]
+        ]
+      ],
+      [
+        "PYTHON API",
+        [
+          [
+            "FastAPI",
+            "fastapi"
+          ],
+          [
+            "Pydantic · SQLAlchemy",
+            null
+          ],
+          [
+            "uv · ruff · mypy",
+            null
+          ]
+        ]
+      ],
+      [
+        "WEB",
+        [
+          [
+            "Next.js",
+            "nextdotjs"
+          ],
+          [
+            "React",
+            "react"
+          ],
+          [
+            "Tailwind CSS",
+            "tailwindcss"
+          ]
+        ]
+      ],
+      [
+        "NODE API",
+        [
+          [
+            "TypeScript",
+            "typescript"
+          ],
+          [
+            "Fastify",
+            "fastify"
+          ],
+          [
+            "Zod · Drizzle or Prisma",
+            null
+          ]
+        ]
+      ]
+    ]
+  },
+  "terminal": {
+    "alt": "Terminal: make a folder, clone repo-seed into it as _kit, start Claude Code and paste the setup prompt; afterwards every session uses /start-session and /end-session.",
+    "kicker": "USE IT",
+    "title": "Once per project, then every session.",
+    "window": "zsh — MyNewApp",
+    "prompt": "❯",
+    "lines": [
+      [
+        "com",
+        "# once per new project"
+      ],
+      [
+        "cmd",
+        "mkdir MyNewApp && cd MyNewApp"
+      ],
+      [
+        "cmd",
+        "git clone https://github.com/Aryan-yadav15/repo-seed _kit"
+      ],
+      [
+        "cmd",
+        "claude"
+      ],
+      [
+        "com",
+        "# paste _kit/SETUP_PROMPT.txt, answer, approve the plan"
+      ],
+      [
+        "gap",
+        ""
+      ],
+      [
+        "com",
+        "# every session after that, inside Claude Code"
+      ],
+      [
+        "cmd",
+        "/start-session"
+      ],
+      [
+        "com",
+        "# … work …"
+      ],
+      [
+        "cmd",
+        "/end-session"
+      ]
+    ]
+  },
+  "editor": {
+    "alt": "Lines 89 to 101 of templates/CLAUDE.md: the reference shape of a gateway, which tries the cache, then providers in configured order with rate limits and circuit breakers, then stale cache, then a typed AllProvidersFailed error.",
+    "kicker": "IN THE RULEBOOK",
+    "title": "The middle layer, in thirteen lines.",
+    "window": "templates",
+    "file": "CLAUDE.md",
+    "notes": {
+      "94": "← order comes from config",
+      "98": "← degrade, don't crash"
+    },
+    "lines": [
+      [
+        89,
+        "interface XProvider { name; capabilities; search(query: XQuery): List<XResult>; health(): Bool }"
+      ],
+      [
+        90,
+        ""
+      ],
+      [
+        91,
+        "class XGateway(providers, policy, cache, limiter, breaker, logger) {"
+      ],
+      [
+        92,
+        "  search(query): Result<List<XResult>> {"
+      ],
+      [
+        93,
+        "    cached? → return ok(cached, provider=\"cache\")"
+      ],
+      [
+        94,
+        "    for p in policy.order(providers, need):"
+      ],
+      [
+        95,
+        "      skip if limiter denies or breaker open"
+      ],
+      [
+        96,
+        "      try with timeout → cache → return ok(result, provider=p.name)"
+      ],
+      [
+        97,
+        "      catch ProviderError → log, breaker.record, continue"
+      ],
+      [
+        98,
+        "    stale cache? → return ok(stale, isStale=true)"
+      ],
+      [
+        99,
+        "    return fail(AllProvidersFailed(domain, causes))"
+      ],
+      [
+        100,
+        "  }"
+      ],
+      [
+        101,
+        "}"
+      ]
+    ]
+  }
+}
