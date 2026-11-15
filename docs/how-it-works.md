@@ -11,7 +11,7 @@ empty-but-working project and a first commit.
 </picture>
 
 <sub>[Interactive version](diagrams/setup-flow.html) — download and open it in a browser to trace paths and jump to the
-prompt lines behind each step. Made with [Archify](https://github.com/tt-a1i/archify).</sub>
+prompt lines behind each step. Made with [Archify](https://github.com/tt-a1i/archify), styled with the [repo-polish](https://github.com/Aryan-yadav15/repo-polish) Archify theme.</sub>
 
 ## The six phases
 
