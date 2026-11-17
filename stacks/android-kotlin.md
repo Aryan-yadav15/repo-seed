@@ -44,5 +44,16 @@ Applies to everything under this folder. Root `CLAUDE.md` still applies. UI work
 - Room migrations with `MigrationTestHelper`. Screenshot tests for every design-system component.
 - `failOnNoDiscoveredTests` off for empty modules (Gradle 9).
 
+## Enforced rules
+Config in `detekt.yml` and `.editorconfig` so `.claude/settings.json` can protect them. `warningsAsErrors` on in detekt and the Kotlin compiler; no detekt or Android Lint baseline files (a baseline is a bulk suppression).
+
+| Rule | Enforced by |
+|---|---|
+| `:domain` stays pure; providers/DTOs private | module dependencies (compile error) + `internal` + `explicitApi()` |
+| UI never reaches into data | detekt `ForbiddenImport` of `*.data.*` from `:ui:*`, with a reason naming the use case to call |
+| No `println`, `Log.*`, `Thread.sleep` | detekt `ForbiddenMethodCall`, reasons pointing to the logger and `Clock` |
+| No hard-coded colors/sizes in screens | not lintable reliably — `ui-reviewer` agent + Roborazzi screenshot tests |
+| TODO links an issue; `@Suppress` count doesn't grow | `scripts/check-rules.sh` |
+
 ## Commands
-`./gradlew ktlintCheck detekt` · `./gradlew test` · `./gradlew verifyRoborazziDebug` · `./gradlew :app:assemble<Flavor>Debug`
+`make check` (everything below plus repo rules) · `./gradlew ktlintCheck detekt` · `./gradlew test` · `./gradlew verifyRoborazziDebug` · `./gradlew :app:assemble<Flavor>Debug`

@@ -37,7 +37,7 @@ PHASE C — WRITE THE DOCS & RULES
 4. docs/DESIGN.md — only if there's a UI. Fill _kit/templates/docs/DESIGN.md: keep the structure and motion system; adapt palette/typography/components to my answer for Q7 (original identity, never copying a brand's assets). If no UI, skip it and remove DESIGN references.
 5. docs/PROGRESS.md and docs/INCIDENTS.md — copy templates, fill phase tracker from the roadmap.
 6. docs/adr/ — copy 0000-template.md and write: 0001 architecture & layering, 0002 gateway/provider pattern, 0003 toolchain versions (after Phase D research), plus one ADR per significant stack choice.
-7. .claude/ — copy _kit/templates/.claude/ (settings.json, commands, agents, hooks). Adapt allowed commands in settings.json and the lint commands in hooks/post-edit-lint.sh to the chosen stacks. Make the hook executable. If .claude/settings.local.json exists, keep it.
+7. .claude/ — copy _kit/templates/.claude/ (settings.json, commands, agents, hooks) and _kit/templates/scripts/ to scripts/. Adapt allowed commands and the protected lint/type config paths ("ask" list) in settings.json, the lint commands in hooks/post-edit-lint.sh, and the EXCLUDE list in scripts/check-rules.sh to the chosen stacks. Make the hooks and scripts executable. If .claude/settings.local.json exists, keep it.
 
 ==================================================
 PHASE D — VERSIONS (research, don't guess)
@@ -50,22 +50,23 @@ PHASE E — SKELETON (empty but working)
 For each part, per its stack rules file:
 - Project/build files, dependency lockfiles, module/package structure with .gitkeep in empty folders.
 - Core primitives only: Result/error types, logger interface, clock interface, config loading with fail-fast on missing env vars, health endpoint (for servers), app shell with theme tokens from DESIGN.md (for UIs).
-- Lint, format, type-check and import-boundary rules configured.
+- Lint, format, type-check and import-boundary rules configured, including every rule in the stack file's "Enforced rules" section. Lint/type config lives in its own files (not pyproject.toml/package.json) so settings.json can protect it. Every boundary and restricted-import rule carries a message naming what to use instead.
 - One real test per part (e.g. health endpoint, Result type) and one screenshot test of the token sheet (UI parts).
-Root files: README.md (pitch, folder map, how to run), CHANGELOG.md (Keep a Changelog), .gitignore (all stacks + .env*, keys, caches, venvs, build outputs, .claude/settings.local.json; allowlist .env.example/.env.test), .env.example (every var with placeholder), Makefile (setup, lint, test, run targets per part), .pre-commit-config.yaml (formatters, linters, gitleaks secret scan).
-CI: .github/workflows/ci-<part>.yml running lint, types, boundaries, tests, build for each part, with caching.
+Root files: README.md (pitch, folder map, how to run), CHANGELOG.md (Keep a Changelog), .gitignore (all stacks + .env*, keys, caches, venvs, build outputs, .claude/settings.local.json; allowlist .env.example/.env.test), .env.example (every var with placeholder), Makefile (setup, lint, test, run targets per part, plus `check` = format check, lint, types, boundaries, scripts/check-rules.sh and tests for every part — non-interactive and fast; slow e2e/screenshot suites get their own target), .suppressions-baseline (the current count, normally 0), .pre-commit-config.yaml (formatters, linters, scripts/check-rules.sh, gitleaks secret scan).
+CI: .github/workflows/ci-<part>.yml running lint, types, boundaries, scripts/check-rules.sh, tests, build for each part, with caching. .github/CODEOWNERS naming me as owner of the lint/type configs, .suppressions-baseline, Makefile and .github/.
 
 ==================================================
 PHASE F — VERIFY & FINISH
 ==================================================
-1. Run make lint and make test (and the build for each part). Fix the skeleton, never weaken the rules, until green.
-2. Move nothing from _kit into the repo that wasn't adapted. Then delete _kit/ from the project (it's a template, not part of the repo) — unless I tell you otherwise.
-3. git init (branch main), ensure no secrets/venvs/caches are tracked, commit: "chore: bootstrap <project> skeleton".
-4. Update docs/PROGRESS.md: Phase 0 status, Current Snapshot, first Session Log entry, any tech debt.
-5. Report:
+1. Run make check (and the build for each part). Fix the skeleton, never weaken the rules, until green.
+2. Prove the checks bite. For each part, add one throwaway violation at a time — a forbidden cross-layer import, an `any`/untyped value, a print, a TODO without an issue link, a new suppression comment — and confirm make check fails with a message that says what to do instead. Fix any rule that stays green or gives a vague message. Revert every violation.
+3. Move nothing from _kit into the repo that wasn't adapted. Then delete _kit/ from the project (it's a template, not part of the repo) — unless I tell you otherwise.
+4. git init (branch main), ensure no secrets/venvs/caches are tracked, commit: "chore: bootstrap <project> skeleton".
+5. Update docs/PROGRESS.md: Phase 0 status, Current Snapshot, first Session Log entry, any tech debt.
+6. Report:
    - Final tree (2 levels)
-   - Table of every check and its result
+   - Table of every check and its result, including which throwaway violations each one caught in step 2
    - Every decision you made on your own, flagged as an assumption
-   - What I must do manually (accounts, API keys, devices, installs) as a checklist
+   - What I must do manually (accounts, API keys, devices, installs, branch protection on main so CI and CODEOWNERS are required) as a checklist
    - The first task of Phase 0/1
 Then stop and wait. Remind me to restart Claude Code in the project root and use /start-session from now on.

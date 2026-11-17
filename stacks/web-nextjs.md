@@ -32,5 +32,18 @@ tests/ e2e/ .storybook/
 - Accessibility: semantic HTML, keyboard navigation, focus rings, axe checks in tests.
 - Performance budgets: LCP < 2.5 s, CLS < 0.1, route JS budget tracked in CI.
 
+## Enforced rules
+Config in `eslint.config.*` and `tsconfig*.json` so `.claude/settings.json` can protect them.
+
+| Rule | Enforced by |
+|---|---|
+| Layering (`app → features → application → domain`) | `eslint-plugin-boundaries` or dependency-cruiser, each rule with a message naming the allowed path |
+| Server-only code stays off the client | `import "server-only"` (build error) + `no-restricted-imports` of `integrations/*` from `features/` and `ui/` |
+| No `any`; no `@ts-ignore` | `@typescript-eslint/no-explicit-any`, `ban-ts-comment` (`allow-with-description`) |
+| No `console` | `no-console` |
+| Tokens only | `no-restricted-syntax` on string literals with hex colors or arbitrary Tailwind values (`[12px]`, `[#fff]`) in `features/` and `ui/` primitives, message pointing to `ui/tokens.css` |
+| Disable comments need a reason; no stale ones | `@eslint-community/eslint-comments/require-description`; `reportUnusedDisableDirectives: "error"` |
+| TODO links an issue; suppressions don't grow | `scripts/check-rules.sh` |
+
 ## Commands
-`pnpm lint` · `pnpm typecheck` · `pnpm test` · `pnpm e2e` · `pnpm build` · `pnpm storybook`
+`make check` (everything below plus repo rules) · `pnpm lint` · `pnpm typecheck` · `pnpm test` · `pnpm e2e` · `pnpm build` · `pnpm storybook`

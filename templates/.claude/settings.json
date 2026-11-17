@@ -6,6 +6,24 @@
       "Bash(git diff:*)",
       "Bash(git log:*)"
     ],
+    "ask": [
+      "Edit(./.suppressions-baseline)",
+      "Bash(scripts/check-rules.sh --update)",
+      "Bash(./scripts/check-rules.sh --update)",
+      "Edit(./scripts/check-rules.sh)",
+      "Edit(./Makefile)",
+      "Edit(./.pre-commit-config.yaml)",
+      "Edit(./.github/**)",
+      "Edit(./**/ruff.toml)",
+      "Edit(./**/mypy.ini)",
+      "Edit(./**/.importlinter)",
+      "Edit(./**/eslint.config.*)",
+      "Edit(./**/.dependency-cruiser.*)",
+      "Edit(./**/tsconfig*.json)",
+      "Edit(./**/detekt.yml)",
+      "Edit(./**/.editorconfig)",
+      "Edit(./**/.swiftlint.yml)"
+    ],
     "deny": [
       "Read(./.env)",
       "Read(./**/.env)",
@@ -29,6 +47,17 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-edit-lint.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/stop-check.sh",
+            "timeout": 600
           }
         ]
       }

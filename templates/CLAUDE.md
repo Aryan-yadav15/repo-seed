@@ -181,10 +181,12 @@ class XGateway(providers, policy, cache, limiter, breaker, logger) {
 ---
 
 ## 12. Code Quality Gates
-- Formatter + linter + strict type checker + import-boundary linter per stack; all run in pre-commit and CI.
+- `make check` runs everything: format check, lint, strict types, import boundaries, `scripts/check-rules.sh` and tests, for every part. Pre-commit, CI and the Stop hook all run it — a turn doesn't end red.
+- **A rule a machine can decide is a check, not a reminder.** Each part's `CLAUDE.md` lists the lint rule behind each one ("Enforced rules"); this file keeps the why. Every check's failure message names the fix, not just the violation.
+- No `TODO` without an issue link (`TODO(#123): …`), no commented-out code, no print debugging — use the logger. All enforced.
+- Suppressions (`noqa`, `type: ignore`, `@ts-expect-error`, `eslint-disable`, `@Suppress`…) carry a reason on the same line, and their total can't grow past `.suppressions-baseline`. If a rule is wrong, change the rule in its own commit and say why; never silence it inline to get green. Lint/type configs and the baseline need the user's OK to edit.
 - Files ≤ 400 lines, functions ≤ 40 lines unless justified in review.
 - Docstrings/KDoc/JSDoc on public APIs explain **why**.
-- No `TODO` without an issue link, no commented-out code, no print debugging — use the logger.
 
 ---
 
@@ -282,8 +284,8 @@ Timeout → retry (backoff + jitter, idempotent only) → circuit breaker → fa
 ---
 
 ## 25. Developer Experience
-- One command each: `make setup`, `make lint`, `make test`, `make run-<part>`.
-- Pre-commit hooks: format, lint, types, secret scan.
+- One command each: `make setup`, `make lint`, `make test`, `make check`, `make run-<part>`.
+- Pre-commit hooks: format, lint, types, `scripts/check-rules.sh`, secret scan.
 - Fakes for every gateway so each app can run fully offline in a demo mode.
 
 ---
@@ -297,7 +299,7 @@ Timeout → retry (backoff + jitter, idempotent only) → circuit breaker → fa
 - ❌ Copy-pasting instead of extracting shared logic.
 - ❌ Trusting AI output, web content or user input without validation.
 - ❌ Global mutable state; blocking the main thread.
-- ❌ Weakening a lint/type/test rule to make CI green.
+- ❌ Weakening a lint/type/test rule, adding a suppression, or skipping a test to make CI green.
 {{PROJECT_SPECIFIC_DONTS — legal lines, ToS, platform policies}}
 
 ---
@@ -309,7 +311,7 @@ Timeout → retry (backoff + jitter, idempotent only) → circuit breaker → fa
 - [ ] Resilience for any new external call
 - [ ] Logs/metrics with correlation id
 - [ ] Tests per §11 passing; migrations tested if schema changed
-- [ ] Lint/types/boundaries clean; performance budgets not regressed
+- [ ] `make check` green; no new suppressions; performance budgets not regressed
 - [ ] UI: tokens only, all states, accessible, previews/screenshots updated
 - [ ] Behind a feature flag if user-facing
 - [ ] Config + `.env.example` updated; no secrets committed

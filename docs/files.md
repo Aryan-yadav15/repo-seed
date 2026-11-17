@@ -11,8 +11,10 @@
 | [`templates/docs/PROGRESS.md`](../templates/docs/PROGRESS.md) | Build log: snapshot, phase tracker, inventory, decisions, session log, tech debt | `docs/PROGRESS.md` |
 | [`templates/docs/INCIDENTS.md`](../templates/docs/INCIDENTS.md) | Lessons, open incidents, incident log with severities | `docs/INCIDENTS.md` |
 | [`templates/docs/adr/0000-template.md`](../templates/docs/adr/0000-template.md) | Decision record: context, decision, alternatives, consequences, revisit-when | `docs/adr/` |
-| [`templates/.claude/settings.json`](../templates/.claude/settings.json) | Permissions and the post-edit hook | `.claude/settings.json` |
+| [`templates/.claude/settings.json`](../templates/.claude/settings.json) | Permissions (secrets unreadable, gate configs need your OK) and both hooks | `.claude/settings.json` |
 | [`templates/.claude/commands/`](../templates/.claude/commands/) | 7 slash commands | `.claude/commands/` |
 | [`templates/.claude/agents/`](../templates/.claude/agents/) | 4 agents: architecture, security, UI reviewers; test writer | `.claude/agents/` |
 | [`templates/.claude/hooks/post-edit-lint.sh`](../templates/.claude/hooks/post-edit-lint.sh) | Format + lint each edited file | `.claude/hooks/` (made executable) |
+| [`templates/.claude/hooks/stop-check.sh`](../templates/.claude/hooks/stop-check.sh) | Runs `make check` before Claude ends a turn; sends it back on failure | `.claude/hooks/` (made executable) |
+| [`templates/scripts/check-rules.sh`](../templates/scripts/check-rules.sh) | TODOs must link an issue; suppression comments can't grow past the baseline | `scripts/` (made executable) |
 | `docs/` (this folder) | Documentation of the kit itself | — (deleted with `_kit/`) |

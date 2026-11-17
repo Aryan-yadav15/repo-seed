@@ -36,7 +36,7 @@ spring-based motion). Setup keeps its structure and motion system and adapts pal
 answer about the UI. Replace it with your own house style if you have one; keep the token names so the `ui-reviewer`
 agent and `/new-screen` still apply.
 
-## Adapt commands, agents and the hook
+## Adapt commands, agents and the hooks
 
 - **Commands** in `templates/.claude/commands/` are short Markdown prompts with a `description` and optional
   `argument-hint` header. Add one by adding a file; its name becomes the command.
@@ -44,11 +44,17 @@ agent and `/new-screen` still apply.
   design (`tools: Read, Grep, Glob, Bash`).
 - **The hook** [`post-edit-lint.sh`](../templates/.claude/hooks/post-edit-lint.sh) maps file extensions to tools. Add a
   case for a new language; keep the rule that a missing tool is skipped and a real error exits 2.
+  [`stop-check.sh`](../templates/.claude/hooks/stop-check.sh) only calls `make check`, so change what the gate runs in
+  the project's `Makefile`, not in the hook.
+- **Repo rules** in [`scripts/check-rules.sh`](../templates/scripts/check-rules.sh): add a pattern to `SUPPRESS` for a
+  new language's suppression syntax, and a path to `EXCLUDE` for generated code.
+- **A new stack file** needs an "Enforced rules" table: every rule a linter can decide, the exact rule that enforces it,
+  and a failure message that names the fix. Rules that can't be linted reliably say so and name the reviewer agent instead.
 - **Permissions** in [`settings.json`](../templates/.claude/settings.json): extend `allow` with commands you never want
-  to be asked about, and `deny` with files that hold secrets in your stacks.
+  to be asked about, `ask` with the lint/type config files your stacks use, and `deny` with files that hold secrets.
 
 ## Change the setup itself
 
 [`SETUP_PROMPT.txt`](../SETUP_PROMPT.txt) is plain text. Common edits: the 9 Phase A questions, what Phase E puts in the
-skeleton, and whether Phase F deletes `_kit/` (line 62). Keep the two stops in Phases A and B — they're what keeps setup
+skeleton, and whether Phase F deletes `_kit/` (line 63). Keep the two stops in Phases A and B — they're what keeps setup
 from building the wrong thing.

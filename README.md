@@ -100,10 +100,11 @@ templates/
   CLAUDE.md              the rulebook — 28 sections, stack-agnostic
   docs/                  PLAN · DESIGN · PROGRESS · INCIDENTS · adr/0000-template
   .claude/
-    settings.json        permissions (secrets unreadable) + the lint hook
+    settings.json        permissions (secrets unreadable, gate configs need your OK) + hooks
     commands/            /start-session /end-session /plan-feature /new-provider /new-screen /log-incident /new-adr
     agents/              architecture · security · ui reviewers, test-writer
-    hooks/               post-edit-lint.sh
+    hooks/               post-edit-lint.sh · stop-check.sh (make check before a turn ends)
+  scripts/check-rules.sh TODOs link an issue; suppressions can't grow
 stacks/                  android-kotlin · python-fastapi · web-nextjs · node-typescript-api
 docs/                    documentation of the kit (this README's long form)
 ```

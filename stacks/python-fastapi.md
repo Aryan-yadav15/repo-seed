@@ -33,8 +33,21 @@ migrations/          alembic
 - Long jobs: `202` + job id.
 - Structured JSON logs with correlation id.
 
+## Enforced rules
+Config in `ruff.toml`, `mypy.ini` and `.importlinter` (not `pyproject.toml`) so `.claude/settings.json` can protect them.
+
+| Rule | Enforced by |
+|---|---|
+| Layering and private providers | import-linter contracts, each **named as the fix** (`"routes call domain.services, never db or integrations"`) |
+| No `print` | ruff `T20` |
+| No commented-out code | ruff `ERA` |
+| No `Any` in signatures | ruff `ANN401` + `mypy --strict` |
+| No blanket `noqa` / `type: ignore`; no stale ones | ruff `PGH003`, `PGH004`, `RUF100`; mypy `enable_error_code = ignore-without-code` (strict already warns on unused ignores) |
+| No sleeps or raw HTTP clients outside `core/` and providers | ruff `TID251` banned-api with a `msg` naming the replacement (`core.clock`, the gateway), allowed via `per-file-ignores` only there |
+| TODO links an issue; suppressions don't grow | `scripts/check-rules.sh` |
+
 ## Testing
 - Contract suite per domain parametrized over providers; gateway behavior tests; startup fail-fast tests; mutation-check critical tests occasionally (break the code, confirm a test fails).
 
 ## Commands
-`uv run ruff check . && uv run ruff format --check . && uv run mypy app && uv run lint-imports` · `uv run pytest` · `uv run uvicorn app.main:app --reload` · `uv run alembic upgrade head`
+`make check` (everything below plus repo rules) · `uv run ruff check . && uv run ruff format --check . && uv run mypy app && uv run lint-imports` · `uv run pytest` · `uv run uvicorn app.main:app --reload` · `uv run alembic upgrade head`
