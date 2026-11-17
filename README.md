@@ -56,7 +56,7 @@ layout, external-service gateways and roadmap. Then it writes, builds and verifi
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/architecture-dark.svg"/>
-  <img src="docs/assets/architecture-light.svg" width="100%" alt="How setup works: you give a brief or answer 9 questions and approve the plan; SETUP_PROMPT.txt drives Claude Code through phases A to F; the result is rules and memory, a .claude folder with commands, agents and a hook, and a skeleton with CI."/>
+  <img src="docs/assets/architecture-light.svg" width="100%" alt="How setup works: you give a brief or answer 9 questions and approve the plan; SETUP_PROMPT.txt drives Claude Code through phases A to F; the result is rules and memory, a .claude folder with commands, agents and hooks, and a skeleton with make check and CI."/>
 </picture>
 
 <picture>
@@ -71,7 +71,7 @@ The full walkthrough — every phase, what it writes, and an interactive diagram
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/capabilities-dark.svg"/>
-  <img src="docs/assets/capabilities-light.svg" width="100%" alt="Session memory via /start-session; one gateway per outside service via /new-provider; reviewer agents before commits; quality gates from day one via the post-edit lint hook and CI."/>
+  <img src="docs/assets/capabilities-light.svg" width="100%" alt="Session memory via /start-session; one gateway per outside service via /new-provider; reviewer agents before commits; quality gates from day one: a lint hook on every edit, and make check before Claude finishes a turn."/>
 </picture>
 
 <picture>

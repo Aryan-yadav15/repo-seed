@@ -57,7 +57,7 @@
     ]
   },
   "arch": {
-    "alt": "How setup works: you give a brief or answer 9 questions and approve the plan; SETUP_PROMPT.txt drives Claude Code through phases A to F (interview and propose, docs and rules, version research, skeleton and verify); the result is rules and memory, a .claude folder with commands, agents and a hook, and a skeleton with CI.",
+    "alt": "How setup works: you give a brief or answer 9 questions and approve the plan; SETUP_PROMPT.txt drives Claude Code through phases A to F (interview and propose, docs and rules, version research, skeleton and verify); the result is rules and memory, a .claude folder with commands, agents and hooks, and a skeleton with make check and CI.",
     "kicker": "HOW SETUP WORKS",
     "title": "One prompt, six phases.",
     "cols": [
@@ -98,7 +98,7 @@
       ],
       [
         "E–F skeleton · verify",
-        "lint + tests"
+        "make check"
       ]
     ],
     "data": [
@@ -108,11 +108,11 @@
       ],
       [
         ".claude/",
-        "commands · agents · hook"
+        "commands · agents · hooks"
       ],
       [
         "Skeleton + CI",
-        "lint · tests · workflows"
+        "make check · CI"
       ]
     ],
     "links": [
@@ -159,12 +159,12 @@
       ],
       [
         "Verify",
-        "Lint and tests green, first commit"
+        "make check green, first commit"
       ]
     ]
   },
   "capabilities": {
-    "alt": "Four things the kit gives every project: session memory, a gateway per outside service, reviewer agents, and quality gates.",
+    "alt": "Four things the kit gives every project: session memory, a gateway per outside service, reviewer agents, and a check gate Claude must pass before it finishes.",
     "kicker": "WHAT EVERY PROJECT GETS",
     "title": "Built to keep going.",
     "items": [
@@ -192,9 +192,9 @@
       {
         "kicker": "GUARDRAILS",
         "title": "Quality gates from day one",
-        "ask": "Save a file",
-        "does": "A hook formats and lints each edited file; CI runs lint, types, boundaries and tests per part.",
-        "tool": "post-edit-lint.sh"
+        "ask": "Finish a task",
+        "does": "Before Claude ends a turn, make check runs lint, types, boundaries and tests. Red sends it back.",
+        "tool": "stop-check.sh"
       }
     ]
   },
